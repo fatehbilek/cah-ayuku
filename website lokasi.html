@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Bagikan Lokasi Saya</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #lokasi {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📍 Bagikan Lokasi Saya</h2>
+  <p>Tekan tombol di bawah untuk melihat lokasi kamu sekarang:</p>
+
+  <button onclick="bagikanLokasi()">Bagikan Lokasi</button>
+
+  <div id="lokasi"></div>
+
+  <script>
+    function bagikanLokasi() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const link = `https://www.google.com/maps?q=${lat},${lon}`;
+
+            document.getElementById("lokasi").innerHTML = `
+              <p>Lokasi kamu ditemukan:</p>
+              <p><a href="${link}" target="_blank">${link}</a></p>
+              <p><a href="https://wa.me/?text=Ini%20lokasiku%20sekarang:%20${encodeURIComponent(link)}" target="_blank">📲 Kirim via WhatsApp</a></p>
+            `;
+          },
+          function(error) {
+            alert("Gagal mengambil lokasi. Pastikan izin lokasi diaktifkan.");
+          }
+        );
+      } else {
+        alert("Browser tidak mendukung geolocation.");
+      }
+    }
+  </script>
+
+</body>
+</html>
